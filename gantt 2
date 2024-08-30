@@ -1,0 +1,68 @@
+# Adjust the timeline to start from 2025 and improve the visibility of dates
+
+# Update the Start dates to begin from January 2025
+tasks = {
+    'Task': [
+        'Revisión bibliográfica y recopilación de datos genéticos',
+        'Análisis de polimorfismos de nucleótido único (SNPs)',
+        'Detección de señales de selección',
+        'Evaluación de la diferenciación genética y comparación',
+        'Redacción de informes y propuestas de estrategias de conservación',
+        'Presentación de resultados y ajuste de estrategias'
+    ],
+    'Start': [
+        '2025-01-01',
+        '2025-03-01',
+        '2025-05-01',
+        '2025-07-01',
+        '2025-11-01',
+        '2026-01-01'
+    ],
+    'Finish': [
+        '2025-02-28',
+        '2025-04-30',
+        '2025-06-30',
+        '2025-10-31',
+        '2025-12-31',
+        '2027-01-31'
+    ]
+}
+
+df = pd.DataFrame(tasks)
+
+# Convert Start and Finish to datetime
+df['Start'] = pd.to_datetime(df['Start'])
+df['Finish'] = pd.to_datetime(df['Finish'])
+
+# Plotting the Gantt Chart with improved date visibility
+fig, ax = plt.subplots(figsize=(12, 7))
+
+for i, task in df.iterrows():
+    ax.barh(task['Task'], (task['Finish'] - task['Start']).days, left=task['Start'])
+
+ax.set_xlabel('Timeline')
+ax.set_ylabel('Tasks')
+ax.xaxis_date()
+
+# Formatting the x-axis to show the month and year more clearly
+ax.xaxis.set_major_formatter(mdates.DateFormatter('%b %Y'))
+ax.xaxis.set_major_locator(mdates.MonthLocator(interval=2))
+plt.xticks(rotation=45)
+
+plt.title('Gantt Chart - Proyecto a 36 meses')
+plt.grid(True)
+plt.tight_layout()
+
+# Display the plot
+plt.show()
+
+# Formatting the x-axis to show the month and year
+ax.xaxis.set_major_formatter(mdates.DateFormatter('%b %Y'))
+ax.xaxis.set_major_locator(mdates.MonthLocator(interval=3))
+
+plt.title('Gantt Chart - Proyecto a 36 meses')
+plt.grid(True)
+plt.tight_layout()
+
+# Display the plot
+plt.show()
