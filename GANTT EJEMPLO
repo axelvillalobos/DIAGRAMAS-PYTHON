@@ -1,0 +1,59 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+from datetime import datetime, timedelta
+
+# Create a DataFrame for the project timeline
+tasks = {
+    'Task': [
+        'Revisión bibliográfica y recopilación de datos genéticos',
+        'Análisis de polimorfismos de nucleótido único (SNPs)',
+        'Detección de señales de selección',
+        'Evaluación de la diferenciación genética y comparación',
+        'Redacción de informes y propuestas de estrategias de conservación',
+        'Presentación de resultados y ajuste de estrategias'
+    ],
+    'Start': [
+        '2024-09-01',
+        '2024-11-01',
+        '2025-01-01',
+        '2025-03-01',
+        '2025-07-01',
+        '2025-08-01'
+    ],
+    'Finish': [
+        '2024-10-31',
+        '2024-12-31',
+        '2025-02-28',
+        '2025-06-30',
+        '2025-08-31',
+        '2025-08-31'
+    ]
+}
+
+df = pd.DataFrame(tasks)
+
+# Convert Start and Finish to datetime
+df['Start'] = pd.to_datetime(df['Start'])
+df['Finish'] = pd.to_datetime(df['Finish'])
+
+# Plotting the Gantt Chart
+fig, ax = plt.subplots(figsize=(10, 6))
+
+for i, task in df.iterrows():
+    ax.barh(task['Task'], (task['Finish'] - task['Start']).days, left=task['Start'])
+
+ax.set_xlabel('Timeline')
+ax.set_ylabel('Tasks')
+ax.xaxis_date()
+
+# Formatting the x-axis to show the month and year
+ax.xaxis.set_major_formatter(mdates.DateFormatter('%b %Y'))
+ax.xaxis.set_major_locator(mdates.MonthLocator(interval=3))
+
+plt.title('Gantt Chart - Proyecto a 36 meses')
+plt.grid(True)
+plt.tight_layout()
+
+# Display the plot
+plt.show()
